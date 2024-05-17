@@ -1,0 +1,27 @@
+<nav>
+  <a href="#" class="brand">
+    <img src="assets/shamrock.png" alt="Shamrock Logo">
+    <span class="text mt-2" style="margin-left: 5px;">Clover EMS</span>
+  </a>
+
+  <form action="#">
+    <div class="form-input">
+      <input type="search" placeholder="Search...">
+      <button type="submit" class="search-btn" (click)="toggleSearch($event)">
+        <i class='bx bx-search'></i>
+      </button>
+    </div>
+  </form>
+  
+  <input type="checkbox" id="switch-mode" hidden (change)="toggleDarkMode()">
+  <label for="switch-mode" class="switch-mode"></label>
+ 
+  <a href="#" class="profile">
+    <img src="assets/Profile men.jpg" alt="Profile Image">
+  </a>
+  <li>
+    <a href="#" class="logout">
+      <button class="btn btn-warning" (click)="logout()">Logout</button>
+    </a>
+  </li>
+</nav>

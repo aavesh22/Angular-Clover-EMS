@@ -1,0 +1,218 @@
+<div class="dashboardComponent">
+    <section id="content">
+        <app-navbar></app-navbar>
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Dashboard</h1>
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="#">Dashboard</a>
+                        </li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li>
+                            <a class="active" href="#">Home</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <ul class="box-info">
+                <li>
+                    <i class='bx bxs-calendar-check'></i>
+                    <span class="text">
+                        <h3>{{ benchCount }}</h3>
+                        <p>Bench</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bxs-group'></i>
+                    <span class="text">
+                        <h3>2834</h3>
+                        <p>New Requirement</p>
+                    </span>
+                </li>
+                <li>
+                    <i class='bx bxs-dollar-circle'></i>
+                    <span class="text">
+                        <h3>$2543</h3>
+                        <p>Replacement</p>
+                    </span>
+                </li>
+            </ul>
+
+            <div class="table-data">
+                <div class="order">
+                    <div class="head d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="flex-grow-1">Employee Data</h3>
+
+                        <div class="input-group search-bar">
+                            <input type="text" class="form-control" placeholder="Search employee name"
+                                [(ngModel)]="searchText" (input)="searchEmployee()" />
+                            <button class="btn btn-outline-secondary" type="button" (click)="searchEmployee()">
+                                <i class='bx bx-search me-2'></i>
+                            </button>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="button" class="btn btn-outline-success me-2" data-bs-toggle="modal"
+                                data-bs-target="#employeeModal" (click)="resetForm()">Add Employee</button>
+                            <button class="btn btn-primary me-2" (click)="exportexcel()">Download File <i
+                                    class='bx bxs-cloud-download'></i></button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sr.No</th>
+                                    <th scope="col">Employee Code</th>
+                                    <th scope="col">Employee Name</th>
+                                    <th scope="col">Clover DOJ</th>
+                                    <th scope="col">Qualification</th>
+                                    <th scope="col">Technology</th>
+                                    <th scope="col">Lateral Hire / Academy</th>
+                                    <th scope="col">Experience</th>
+                                    <th scope="col">Location</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="filteredEmployeeList.length === 0">
+                                    <td colspan="10" class="text-center">No employees found</td>
+                                </tr>
+                                <tr *ngFor="let employee of filteredEmployeeList; let i = index">
+                                    <td>{{i + 1}}</td>
+                                    <td>{{employee.employee_code}}</td>
+                                    <td>{{employee.employee_name}}</td>
+                                    <td>{{employee.clover_doj}}</td>
+                                    <td>{{employee.qualification}}</td>
+                                    <td>{{employee.technology}}</td>
+                                    <td>{{employee.lateralHireOrAcademy}}</td>
+                                    <td>{{employee.experience}}</td>
+                                    <td>{{employee.location}}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-outline-primary me-2" data-bs-toggle="modal"
+                                                data-bs-target="#employeeModal" (click)="editEmployee(employee)">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-outline-danger" (click)="deleteEmployee(employee)">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Modal for adding or updating an employee -->
+            <div class="modal fade" id="employeeModal" tabindex="-1" aria-labelledby="employeeModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="employeeModalLabel">
+                                {{ isEditing? 'Update Employee' : 'Add Employee' }}
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="employee_code" name="employee_code" [(ngModel)]="employee_code">
+                                            <label for="employee_code">Employee Code</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="employee_name" name="employee_name" [(ngModel)]="employee_name">
+                                            <label for="employee_name">Employee Name</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="date" class="form-control" id="clover_doj" name="clover_doj" [(ngModel)]="clover_doj">
+                                            <label for="clover_doj">Clover DOJ</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="qualification" name="qualification" [(ngModel)]="qualification">
+                                            <label for="qualification">Qualification</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="technology" name="technology" [(ngModel)]="technology">
+                                            <label for="technology">Technology</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="lateralHireOrAcademy" name="lateralHireOrAcademy" [(ngModel)]="lateralHireOrAcademy">
+                                                <option value="">Select</option>
+                                                <option value="Lateral Hire">Lateral Hire</option>
+                                                <option value="Academy">Academy</option>
+                                            </select>
+                                            <label for="lateralHireOrAcademy">Lateral Hire / Academy</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="experience" name="experience" [(ngModel)]="experience">
+                                            <label for="experience">Experience</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="location" name="location" [(ngModel)]="location">
+                                            <label for="location">Location</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        
+
+                        <div class="modal-footer">
+                            <button *ngIf="!isEditing" class="btn btn-outline-success" data-bs-dismiss="modal"
+                                (click)="addEmployee()">
+                                Add Employee
+                            </button>
+
+                            <div class="btn-group" *ngIf="isEditing">
+                                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal"
+                                    (click)="updateEmployee()">
+                                    Update Employee
+                                </button>
+                                <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal"
+                                    aria-label="Close" (click)="cancelEdit()">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </main>
+    </section>
+</div>
