@@ -17,6 +17,7 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
 
 import { environment } from '../environments/environment';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,6 +25,7 @@ import { environment } from '../environments/environment';
     DashboardComponent,
     RegisterComponent,
     NavbarComponent,
+    
   ],
   imports: [
     BrowserModule,

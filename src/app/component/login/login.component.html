@@ -19,8 +19,7 @@
             <button type="button" class="btn btn-info w-100" (click)="login()">Login</button>
             <div class="row mt-3">
               <div class="col-md-6">
-                <a href="/register" style="text-decoration: none;color: white; ">Need Account? <span
-                    class="text-danger">Register</span></a>
+                <a href="/register" style="text-decoration: none;color: white;">Need Account? <span class="text-danger">Register</span></a>
               </div>
             </div>
           </form>
@@ -30,7 +29,20 @@
   </div>
 </div>
 
-
-
-
-
+<!-- Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="successModalLabel">Login Successful</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        You have successfully logged in.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="navigateToDashboard()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

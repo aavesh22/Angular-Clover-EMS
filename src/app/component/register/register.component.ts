@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../shared/auth.service';
+import { Router } from '@angular/router';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-register',
@@ -11,7 +13,7 @@ export class RegisterComponent implements OnInit {
   email : string = '';
   password : string = '';
 
-  constructor(private auth : AuthService) { }
+  constructor(private auth : AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -28,11 +30,24 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    this.auth.register(this.email,this.password);
-    
-    this.email = '';
-    this.password = '';
+    this.auth.register(this.email, this.password).then(() => {
+      this.showSuccessModal();
+      this.email = '';
+      this.password = '';
+    }).catch(err => {
+      alert(err.message);
+      this.router.navigate(['/register']);
+    });
 
   }
 
+  showSuccessModal() {
+    const modalElement = document.getElementById('successModal');
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+  }
+
+  navigateToLogin() {
+    this.router.navigate(['/login']);
+  }
 }

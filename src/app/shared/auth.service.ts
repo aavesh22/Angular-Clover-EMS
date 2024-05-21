@@ -13,15 +13,13 @@ export class AuthService {
   constructor(private router: Router, private fireauth: AngularFireAuth) { }
 
   login(email: string, password: string) {
-    this.fireauth.signInWithEmailAndPassword(email, password).then(() => {
+    return this.fireauth.signInWithEmailAndPassword(email, password).then(() => {
       localStorage.setItem('token', 'true');
-      this.router.navigate(['dashboard']);
-    }, err => {
-      alert(err.message);
-      this.router.navigate(['/login']);
+      return Promise.resolve();
+    }).catch(err => {
+      return Promise.reject(err);
     });
   }
-
   logout() {
     this.fireauth.signOut().then(() => {
       localStorage.removeItem('token');
@@ -37,17 +35,13 @@ export class AuthService {
   // }
 
   // register method
-  register(email : string, password : string){
-    this.fireauth.createUserWithEmailAndPassword(email, password).then(() => {
-      alert('Registration Successful');
-      //   this.sendEmailForVerification(res.user);
-      this.router.navigate(['/login']);
+  register(email: string, password: string) {
+    return this.fireauth.createUserWithEmailAndPassword(email, password).then(() => {
+      return Promise.resolve();
     }, err => {
-      alert(err.message);
-      this.router.navigate(['/register']);
+      return Promise.reject(err);
     });
   }
-
   //   // forgot password
   //   forgotPassword(email: string) {
   //     this.fireauth.sendPasswordResetEmail(email).then(() => {
